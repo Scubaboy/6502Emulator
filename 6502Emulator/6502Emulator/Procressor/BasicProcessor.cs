@@ -33,7 +33,7 @@ public class BasicProcessor : IProcessor
             //Completed current instruction can now move onto the next instruction.
             var instruction = _cPUBus.Read(_registers.PC.Value);
             
-            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U);
+            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U, true);
 
             _registers.PC.Value++;
 
@@ -45,7 +45,7 @@ public class BasicProcessor : IProcessor
             //Execute the instruction
             Cycles += _instructionSet.Instructions[instruction].Execute(addr.Value);
 
-            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U);
+            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U, true);
         }
 
         Cycles--;
@@ -59,7 +59,7 @@ public class BasicProcessor : IProcessor
     public void Reset()
     {
         _externalEvents.Reset();
-        Cycles = 6;
+        Cycles = 8;
     }
 
     public void IRQ()
@@ -71,5 +71,16 @@ public class BasicProcessor : IProcessor
         }
         _externalEvents.Irq();
         Cycles = 7;
+    }
+
+    public void NMI()
+    {
+        //Complete the last request before executing the IRQ
+        while (Cycles > 0)
+        {
+            Process();
+        }
+        _externalEvents.nmi();
+        Cycles = 8;
     }
 }

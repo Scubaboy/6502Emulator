@@ -4,14 +4,16 @@ namespace _6502Emulator.Utils;
 
 static public class RegisterUtils
 {
-    static public void DisableRegisterBit(IRegister<byte> register, byte toggleBit)
+    static public void SetRegisterBit(IRegister<byte> register,byte bit, bool value) 
     {
-        register.Value &= (byte)~toggleBit;
-    }
-
-    static public void SetRegisterBit(IRegister<byte> register, byte value) 
-    {
-        register.Value |= value;
+        if (value)
+        {
+            register.Value |= bit;
+        }
+        else
+        {
+            register.Value &= (byte)~bit;
+        }
     }
 
     static public byte GetRegisterBit(IRegister<byte> register, byte bit)

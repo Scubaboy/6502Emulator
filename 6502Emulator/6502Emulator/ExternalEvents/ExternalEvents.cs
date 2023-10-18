@@ -31,9 +31,9 @@ public class ExternalEvents : IExternalEvents
             _registers.Stkp.Value--;
 
             //Push the status register onto the stack.
-            RegisterUtils.DisableRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.B);
-            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U);
-            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.I);
+            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.B, false);
+            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U, true);
+            RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.I, true);
             _cPUBus.Write((ushort)(0x0100 + _registers.Stkp.Value), _registers.Status.Value);
             _registers.Stkp.Value--;
 
@@ -42,9 +42,6 @@ public class ExternalEvents : IExternalEvents
             ushort lowByte = _cPUBus.Read((ushort)(address + 0));
             ushort highByte = _cPUBus.Read((ushort)(address + 1));
             _registers.PC.Value = (ushort)((highByte << 8) | lowByte);
-
-            //Set cycles
-            _clock.Cycles = 7;
         }
     }
 
@@ -62,9 +59,9 @@ public class ExternalEvents : IExternalEvents
         _registers.Stkp.Value--;
 
         //Push the status register onto the stack.
-        RegisterUtils.DisableRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.B);
-        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U);
-        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.I);
+        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.B, false);
+        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.U, true);
+        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.I, true);
         _cPUBus.Write((ushort)(0x0100 + _registers.Stkp.Value), _registers.Status.Value);
         _registers.Stkp.Value--;
 
@@ -75,7 +72,7 @@ public class ExternalEvents : IExternalEvents
         _registers.PC.Value = (ushort)((highByte << 8) | lowByte);
 
         //Set cycles
-        _clock.Cycles = 8;
+        //_clock.Cycles = 8;
     }
 
     /// <summary>
@@ -96,9 +93,6 @@ public class ExternalEvents : IExternalEvents
         _registers.Y.Value = 0;
         _registers.Stkp.Value = 0xFD;
         _registers.Status.Value = 0x00 | (byte)StatusRegister.StatusBits.U;
-
-        //Set cycles
-        _clock.Cycles = 8;
     }
 
 
