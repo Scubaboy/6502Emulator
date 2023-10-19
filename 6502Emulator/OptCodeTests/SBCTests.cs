@@ -1,14 +1,14 @@
-namespace OptCodeTests;
+﻿namespace OptCodeTests;
 
 using _6502Emulator.DataBus;
 using _6502Emulator.Instructions.OptCodes;
 using _6502Emulator.Registers;
 using NSubstitute;
 
-public class ADCTests
+public class SBCTests
 {
     [Fact]
-    public void ADC_SetsTheStatusRegister_NFlag_True_IfResutMSB_Set()
+    public void SBC_SetsTheStatusRegister_NFlag_True_IfResutMSB_Set()
     {
         //Arrange
         var registers = new Registers();
@@ -19,7 +19,7 @@ public class ADCTests
         registers.Status.Value = 0;
 
         var adc = new ADC(registers, cpuBus);
-        
+
         //Act
         adc.Execute(0x0000);
 
@@ -28,7 +28,7 @@ public class ADCTests
     }
 
     [Fact]
-    public void ADC_SetsTheStatusRegister_ZFlag_True_IfResutIsZero()
+    public void SBC_SetsTheStatusRegister_ZFlag_True_IfResutIsZero()
     {
         //Arrange
         var registers = new Registers();
@@ -51,7 +51,7 @@ public class ADCTests
     /// 
     /// </summary>
     [Fact]
-    public void ADC_SetsTheStatusRegister_CFlag_True_IfHighByteBit0Set()
+    public void SBC_SetsTheStatusRegister_CFlag_True_IfHighByteBit0Set()
     {
         //Arrange
         var registers = new Registers();
@@ -74,7 +74,7 @@ public class ADCTests
     /// 
     /// </summary>
     [Fact]
-    public void ADC_SetsTheStatusRegister_VFlag_True_IfInputsDontHaveDifferentSign_AndInputSignDifferentToOutputSign()
+    public void SBC_SetsTheStatusRegister_VFlag_True_IfInputsDontHaveDifferentSign_AndInputSignDifferentToOutputSign()
     {
         //Arrange
         var registers = new Registers();
@@ -97,7 +97,7 @@ public class ADCTests
     /// 
     /// </summary>
     [Fact]
-    public void ADC_SetsTheStatusRegister_VFlag_False_IfInputsHaveDifferentSign()
+    public void SBC_SetsTheStatusRegister_VFlag_False_IfInputsHaveDifferentSign()
     {
         //Arrange
         var registers = new Registers();
@@ -117,7 +117,7 @@ public class ADCTests
     }
 
     [Fact]
-    public void ADC_SetsTheStatusRegister_VFlag_False_IfInputSignSameAsOutputSign()
+    public void SBC_SetsTheStatusRegister_VFlag_False_IfInputSignSameAsOutputSign()
     {
         //Arrange
         var registers = new Registers();
@@ -136,4 +136,23 @@ public class ADCTests
         Assert.True((registers.Status.Value & (byte)StatusRegister.StatusBits.V) == 0x00);
     }
 
+    [Fact]
+    public void SBC_Subtract_5_From_10_Result_5_Placed_in_Accumilator()
+    {
+        //Arrange
+        var registers = new Registers();
+        var cpuBus = Substitute.For<ICPUBus>();
+
+        cpuBus.Read(Arg.Any<ushort>()).ReturnsForAnyArgs<byte>((byte)0xA);
+        registers.A.Value = 0xFB;
+        registers.Status.Value = 0;
+
+        var adc = new ADC(registers, cpuBus);
+
+        //Act
+        adc.Execute(0x0000);
+
+        //Assert
+        Assert.True(registers.A.Value == 0x05);
+    }
 }

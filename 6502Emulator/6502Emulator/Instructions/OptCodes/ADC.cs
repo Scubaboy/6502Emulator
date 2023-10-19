@@ -16,6 +16,16 @@ public class ADC : IOptCode
         this._cPUBus = cPUBus;
     }
 
+    /// <summary>
+    /// Deatiled explanation of ADC instruction https://www.righto.com/2012/12/ & https://forums.nesdev.org/viewtopic.php?t=6331
+    /// Overflow is set if:
+    /// Positive + Positive = Negative
+    /// or
+    /// Negative + Negative = Positive
+    /// Overflow is cleared in all other instances.
+    /// </summary>
+    /// <param name="address">Address of input value.</param>
+    /// <returns></returns>
     public byte Execute(ushort address)
     {
         byte data = _cPUBus.Read(address);
