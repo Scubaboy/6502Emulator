@@ -15,8 +15,5 @@ public class IMP : IAddressingMode
         this.registers = registers;
     }
 
-    public Address Execute()
-    {
-        return new Address(this.registers.A.Value, 0);
-    }
+    public Address Execute() => new(this.registers.A.Value, 0);
 }
