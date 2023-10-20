@@ -1,8 +1,8 @@
 ﻿namespace _6502Emulator.AddressingModes;
 
-using _6502Emulator.DataBus;
-using _6502Emulator.Models;
-using _6502Emulator.Registers;
+using DataBus;
+using Models;
+using Registers;
 
 public class ABS : IAddressingMode
 {

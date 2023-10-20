@@ -9,6 +9,11 @@ public class SBC : IOptCode
     private readonly IRegisters _registers;
     private readonly ICPUBus _cPUBus;
 
+    /// <summary>
+    /// Subtraction with Borrow In
+    /// </summary>
+    /// <param name="registers"></param>
+    /// <param name="cPUBus"></param>
     public SBC(IRegisters registers, ICPUBus cPUBus)
     {
         this._registers = registers;

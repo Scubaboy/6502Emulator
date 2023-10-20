@@ -10,6 +10,11 @@ public class ADC : IOptCode
     private readonly IRegisters _registers;
     private readonly ICPUBus _cPUBus;
 
+    /// <summary>
+    /// Add with Carry In
+    /// </summary>
+    /// <param name="registers"></param>
+    /// <param name="cPUBus"></param>
     public ADC(IRegisters registers, ICPUBus cPUBus)
     {
         this._registers = registers;
