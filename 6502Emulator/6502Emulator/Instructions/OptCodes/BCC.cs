@@ -25,7 +25,7 @@ public class BCC : IOptCode
     {
         var cycles = 1;
         
-        if (RegisterUtils.GetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.C) == (byte)StatusRegister.StatusBits.C)
+        if (RegisterUtils.GetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.C) != (byte)StatusRegister.StatusBits.C)
         {
             var absAdrs = (ushort)(_registers.PC.Value + address);
             
