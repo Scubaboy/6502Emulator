@@ -29,7 +29,7 @@ public class BCC : IOptCode
         {
             var absAdrs = (ushort)(_registers.PC.Value + address);
             
-            if ((address & 0xff00) != (_registers.PC.Value & 0xff00))
+            if ((absAdrs & 0xff00) != (_registers.PC.Value & 0xff00))
             {
                 cycles++;
             }
