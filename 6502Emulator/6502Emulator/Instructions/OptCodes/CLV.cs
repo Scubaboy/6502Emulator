@@ -1,25 +1,24 @@
 ﻿namespace _6502Emulator.Instructions.OptCodes;
 
-using Instructoins.OptCodes;
 using Registers;
 using Utils;
 
-public class CLD : IOptCode
+public class CLV
 {
     private readonly IRegisters _registers;
 
     /// <summary>
-    /// Clear Decimal Flag.
+    /// Clear Overflow Flag
     /// </summary>
     /// <param name="registers"></param>
-    public CLD(IRegisters registers)
+    public CLV(IRegisters registers)
     {
         this._registers = registers;
     }
 
     public byte Execute(ushort address)
     {
-        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.D, false);
+        RegisterUtils.SetRegisterBit(_registers.Status, (byte)StatusRegister.StatusBits.V, false);
 
         return 0;
     }
